@@ -1,4 +1,4 @@
-require 'watermelon'
+require './lib/watermelon'
 
 class Creator
 
@@ -6,8 +6,8 @@ class Creator
     watermelon: WaterMelon
   }
 
-  def self.create(type)
-    TYPES[type].new
+  def self.create(type,name)
+    TYPES[type].new(name)
   end
 
 end

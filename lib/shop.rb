@@ -1,4 +1,5 @@
 require 'singleton'
+require './lib/creator'
 
 class Shop
 
@@ -11,7 +12,7 @@ class Shop
   end
 
   def load_products
-    @watermelon = Creator.create(:watermelon)
+    @watermelon = Creator.create(:watermelon, "watermelon")
     @watermelon.add_pack(3, 6.99)
   end
 

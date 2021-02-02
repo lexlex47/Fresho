@@ -1,4 +1,4 @@
-require 'pack'
+require './lib/pack'
 
 class Product
 
@@ -6,10 +6,10 @@ class Product
 
   def initialize(name)
     @name = name
-    @packs = nil
+    @packs = []
   end
 
-  def add_pack()
+  def add_pack(quantity, price)
   end
 
 end
