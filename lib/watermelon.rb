@@ -1,6 +1,6 @@
 require './lib/product'
 
-class WaterMelon < Product
+class Watermelon < Product
 
   attr_accessor :name, :packs
 

@@ -1,13 +1,22 @@
 require './lib/watermelon'
+require './lib/watermelon_item'
 
 class Creator
 
-  TYPES = {
-    watermelon: WaterMelon
+  PRODUCT_TYPES = {
+    watermelon: Watermelon
   }
 
-  def self.create(type,name)
-    TYPES[type].new(name)
+  LINE_ITEM_TYPES = {
+    watermelon: WatermelonItem
+  }
+
+  def self.createProduct(type, name)
+    PRODUCT_TYPES[type].new(name)
+  end
+
+  def self.createLineItem(product, quantity)
+    LINE_ITEM_TYPES[product.name.to_sym].new(product,quantity)
   end
 
 end

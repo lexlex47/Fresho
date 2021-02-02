@@ -6,7 +6,7 @@ shop.load_products()
 
 begin
   # read input.txt file
-  File.readlines('data/test.txt').each do |line|
+  File.readlines('data/input.txt').each do |line|
     shop.process_order(line)
   end
 rescue Errno::ENOENT, Errno::EACCES

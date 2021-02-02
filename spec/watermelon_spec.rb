@@ -4,13 +4,13 @@ require './lib/product'
 require './lib/watermelon'
 require './lib/pack'
 
-RSpec.describe WaterMelon do
+RSpec.describe Watermelon do
 
-  let(:watermelon) {WaterMelon.new("watermelon")}
+  let(:watermelon) {Watermelon.new("watermelon")}
 
   describe "#initialize" do
     it "should take one arguments" do
-      expect(WaterMelon).to respond_to(:new).with(1).argument
+      expect(Watermelon).to respond_to(:new).with(1).argument
     end
   end
 
@@ -29,7 +29,7 @@ RSpec.describe WaterMelon do
       before do
         watermelon.add_pack(3, 6.99)
       end
-      
+
       it "should change packs[]" do
         expect(watermelon.packs.length).to eq(1)
       end
