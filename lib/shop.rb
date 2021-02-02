@@ -15,14 +15,35 @@ class Shop
   def load_products
     @watermelon = Creator.createProduct(:watermelon, "watermelon")
     @watermelon.add_pack(3, 6.99)
+    @watermelon.add_pack(5, 8.99)
   end
 
   def process_order(order)
-    processor = order.strip.split(' ')
+    data = order.strip.split(' ')
+    return unless (data.size == 2)
+    name = data.first.downcase
+    quantity = is_numerical(data.last)
+    return unless quantity
+
+    case name
+    when "watermelon"
+      if @watermelonitem == nil
+        @watermelonitem = Creator.createLineItem(@watermelon,quantity)
+      else 
+        @watermelonitem.quantity += quantity
+      end
+    end
   end
 
   def create_invoice
     
+  end
+
+  private
+
+  def is_numerical(arg)
+    return nil if (arg.to_s.match(/[^-?\d+]/)) || (arg == '')
+    arg.to_i
   end
 
 end

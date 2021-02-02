@@ -6,7 +6,7 @@ class WatermelonItem < LineItem
   attr_accessor :product, :quantity
 
   def initialize(product, quantity)
-    return nil unless (product.instance_of? Watermelon)
+    return unless (product.instance_of? Watermelon) && (quantity.is_a? Numeric)
     super(product, quantity)
   end
 
