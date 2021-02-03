@@ -25,8 +25,12 @@ RSpec.describe LineItem do
       expect(@line_item.dividends.length).to eq(@watermelon.packs.length)
     end
     it "should dividends has same value of product packs quantity" do
-      expect(@line_item.dividends.first).to eq(3)
-      expect(@line_item.dividends.last).to eq(5)
+      expect(@line_item.dividends.first.quantity).to eq(3)
+      expect(@line_item.dividends.last.quantity).to eq(5)
+    end
+    it "should dividends has same value of product packs price" do
+      expect(@line_item.dividends.first.price).to eq(6.99)
+      expect(@line_item.dividends.last.price).to eq(8.99)
     end
   end
 
@@ -34,7 +38,7 @@ RSpec.describe LineItem do
     context "watermelon have one pack(quantity is 3) and total quantity is 14" do
       before do
         @watermelon = Creator.createProduct(:watermelon, "watermelon")
-        @watermelon.add_pack(3, 0)
+        @watermelon.add_pack(3, 5)
         @line_item = Creator.createLineItem(@watermelon,14)
         @line_item.set_dividends
         @line_item.caculate_selection
@@ -43,19 +47,23 @@ RSpec.describe LineItem do
         expect(@line_item.result_list).to be_an_instance_of(Array)
         expect(@line_item.result_list).not_to be_empty
       end
-      it "should result with [quotient, remainder, current_pack_quantity]" do
-        # 14 / 3 = 4..2 => [4,2,3]
+      it "should result with [quotient, 
+                              remainder, 
+                              current_pack_quantity,
+                              pack_total_price]" do
+        # 14 / 3 = 4..2 => [4,2,3,20(4*5)]
         expect(@line_item.result_list.first.first[0]).to eq(4)
         expect(@line_item.result_list.first.first[1]).to eq(2)
         expect(@line_item.result_list.first.first[2]).to eq(3)
+        expect(@line_item.result_list.first.first[3]).to eq(20)
       end
     end
     context "watermelon have 3 packs(3pack / 5pack / 9pack) and total quantity is 14" do
       before do
         @watermelon = Creator.createProduct(:watermelon, "watermelon")
-        @watermelon.add_pack(3, 0)
-        @watermelon.add_pack(5, 0)
-        @watermelon.add_pack(9, 0)
+        @watermelon.add_pack(3, 5.95)
+        @watermelon.add_pack(5, 9.95)
+        @watermelon.add_pack(9, 16.99)
         @line_item = Creator.createLineItem(@watermelon,14)
         @line_item.set_dividends
         @line_item.caculate_selection
@@ -64,22 +72,22 @@ RSpec.describe LineItem do
         expect(@line_item.result_list).to be_an_instance_of(Array)
         expect(@line_item.result_list).not_to be_empty
       end
-      it "should result_list have 2 solutions" do
+      it "should result_list contain 3 solutions" do
         expect(@line_item.result_list.size).to eq(3)
       end
       it "should have 1st solution: 4*3pack + 2left" do
-        # 14 / 3 = 4..2 => [4,2,3]
-        expect(@line_item.result_list[0]).to eq([[4,2,3]])
+        # 14 / 3 = 4..2 => [4,2,3,23.8]
+        expect(@line_item.result_list[0]).to eq([[4,2,3,23.8]])
       end
       it "should have 2nd solution: 2*5pack + 1*3pack + 1left" do
-        # 14 / 5 = 2..4 => [2,4,5]
-        # 4 / 3 = 1..1 => [1,1,3]
-        expect(@line_item.result_list[1]).to eq([[2,4,5],[1,1,3]])
+        # 14 / 5 = 2..4 => [2,4,5,19.9]
+        # 4 / 3 = 1..1 => [1,1,3,5.95]
+        expect(@line_item.result_list[1]).to eq([[2,4,5,19.9],[1,1,3,5.95]])
       end
       it "should have 3rd solution: 1*9pack + 1*5pack" do
-        # 14 / 9 = 1..5 => [1,5,9]
-        # 5 / 5 = 1 => [1,0,5]
-        expect(@line_item.result_list[2]).to eq([[1,5,9],[1,0,5]])
+        # 14 / 9 = 1..5 => [1,5,9,16.99]
+        # 5 / 5 = 1 => [1,0,5,9.95]
+        expect(@line_item.result_list[2]).to eq([[1,5,9,16.99],[1,0,5,9.95]])
       end
     end
   end
@@ -87,9 +95,9 @@ RSpec.describe LineItem do
   describe "#find_next" do
     before do
       @watermelon = Creator.createProduct(:watermelon, "watermelon")
-      @watermelon.add_pack(3, 0)
-      @watermelon.add_pack(5, 0)
-      @watermelon.add_pack(9, 0)
+      @watermelon.add_pack(3, 2)
+      @watermelon.add_pack(5, 3)
+      @watermelon.add_pack(9, 4)
       @line_item = Creator.createLineItem(@watermelon,14)
       @line_item.set_dividends
     end
@@ -105,18 +113,20 @@ RSpec.describe LineItem do
         result = @line_item.find_next(5)
         expect(result[1]).to eq(0)
       end
-      it "should return array with 3 element and last one is the dividend number" do
+      it "should return array with 4 element: [quotient, 
+                                               remainder, 
+                                               current_pack_quantity, 
+                                               pack_total_price]" do
         result = @line_item.find_next(3)
-        expect(result).to eq([1,0,3])
-        expect(result.last).to eq(3)
+        expect(result).to eq([1,0,3,2])
       end
     end
     context "the value can be not divisible" do
       it "should return array[1] with the smaller remainder" do
         result = @line_item.find_next(7)
-        expect(result).to eq([2,1,3])
+        expect(result).to eq([2,1,3,4])
         expect(result[1]).to eq(1)
-        expect(result.last).to eq(3)
+        expect(result[2]).to eq(3)
       end
     end
   end
