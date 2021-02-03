@@ -30,6 +30,60 @@ RSpec.describe LineItem do
     end
   end
 
+  describe "#caculate_selection" do
+    context "watermelon have one pack(quantity is 3) and total quantity is 14" do
+      before do
+        @watermelon = Creator.createProduct(:watermelon, "watermelon")
+        @watermelon.add_pack(3, 0)
+        @line_item = Creator.createLineItem(@watermelon,14)
+        @line_item.set_dividends
+        @line_item.caculate_selection
+      end
+      it "should result_list be an array and not empty after caculate" do
+        expect(@line_item.result_list).to be_an_instance_of(Array)
+        expect(@line_item.result_list).not_to be_empty
+      end
+      it "should result with [quotient, remainder, current_pack_quantity]" do
+        # 14 / 3 = 4..2 => [4,2,3]
+        expect(@line_item.result_list.first.first[0]).to eq(4)
+        expect(@line_item.result_list.first.first[1]).to eq(2)
+        expect(@line_item.result_list.first.first[2]).to eq(3)
+      end
+    end
+    context "watermelon have 3 packs(3pack / 5pack / 9pack) and total quantity is 14" do
+      before do
+        @watermelon = Creator.createProduct(:watermelon, "watermelon")
+        @watermelon.add_pack(3, 0)
+        @watermelon.add_pack(5, 0)
+        @watermelon.add_pack(9, 0)
+        @line_item = Creator.createLineItem(@watermelon,14)
+        @line_item.set_dividends
+        @line_item.caculate_selection
+      end
+      it "should result_list be an array and not empty after caculate" do
+        expect(@line_item.result_list).to be_an_instance_of(Array)
+        expect(@line_item.result_list).not_to be_empty
+      end
+      it "should result_list have 2 solutions" do
+        expect(@line_item.result_list.size).to eq(3)
+      end
+      it "should have 1st solution: 4*3pack + 2left" do
+        # 14 / 3 = 4..2 => [4,2,3]
+        expect(@line_item.result_list[0]).to eq([[4,2,3]])
+      end
+      it "should have 2nd solution: 2*5pack + 1*3pack + 1left" do
+        # 14 / 5 = 2..4 => [2,4,5]
+        # 4 / 3 = 1..1 => [1,1,3]
+        expect(@line_item.result_list[1]).to eq([[2,4,5],[1,1,3]])
+      end
+      it "should have 3rd solution: 1*9pack + 1*5pack" do
+        # 14 / 9 = 1..5 => [1,5,9]
+        # 5 / 5 = 1 => [1,0,5]
+        expect(@line_item.result_list[2]).to eq([[1,5,9],[1,0,5]])
+      end
+    end
+  end
+
   describe "#find_next" do
     before do
       @watermelon = Creator.createProduct(:watermelon, "watermelon")

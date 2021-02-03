@@ -7,20 +7,42 @@ class LineItem
     @quantity = quantity
     @total_price = 0
     @dividends = []
-    @result_list = nil
+    @result_list = []
   end
 
   def set_dividends
-    @product.packs.each{|pack| @dividends << pack.quantity}
+    @product.packs
+            .sort_by{|pack| pack.quantity}
+            .each{|pack| @dividends << pack.quantity}
   end
 
-  def caculator
+  def caculate_selection
     @dividends.each do |dividend|
-      
+      result = []
+      if quantity < dividend
+        result << [0, quantity, dividend]
+        result_list << result if result_list.empty?
+      else
+        tmp = quantity.divmod(dividend)
+        tmp << dividend
+        result << tmp
+        remainder = tmp[1]
+        if remainder == 0
+          result_list << result
+        else
+          # puts remainder
+          while(remainder)
+            remainder_cal_res = find_next(remainder)
+            break if remainder_cal_res.empty?
+            result << remainder_cal_res
+            current_remainder = remainder_cal_res[1]
+            break if current_remainder == 0
+            remainder = current_remainder
+          end
+          result_list << result
+        end
+      end
     end
-  end
-
-  def caculate_left_over
   end
 
   def find_next(num)
@@ -35,7 +57,7 @@ class LineItem
       tmp << result
     end
     return tmp.min_by{|t| t[1]} if tmp.size > 1
-    return tmp
+    return tmp.empty? ? tmp : tmp.first
   end
 
 end

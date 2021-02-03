@@ -17,4 +17,8 @@ RSpec.describe Product do
     end
   end
 
+  describe "#update_unit_price" do
+    
+  end
+
 end
