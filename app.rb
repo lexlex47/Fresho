@@ -16,3 +16,4 @@ ensure
 end
 
 shop.create_invoice()
+shop.print_invoice()

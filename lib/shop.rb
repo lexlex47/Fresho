@@ -7,6 +7,7 @@ class Shop
 
   attr_accessor :watermelon
   attr_accessor :watermelonitem
+  attr_accessor :invoice
 
   def initialize
     "is a Singleton"
@@ -36,7 +37,11 @@ class Shop
   end
 
   def create_invoice
-    
+    @invoice = Invoice.new([@watermelonitem])
+  end
+
+  def print_invoice
+    @invoice.output
   end
 
   private
