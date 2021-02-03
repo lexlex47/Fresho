@@ -16,7 +16,6 @@ RSpec.describe LineItem do
       @watermelon.add_pack(3, 6.99)
       @watermelon.add_pack(5, 8.99)
       @line_item = Creator.createLineItem(@watermelon,10)
-      @line_item.set_dividends
     end
     it "should dividends be an array" do
       expect(@line_item.dividends).to be_an_instance_of(Array)
@@ -40,8 +39,6 @@ RSpec.describe LineItem do
         @watermelon = Creator.createProduct(:watermelon, "watermelon")
         @watermelon.add_pack(3, 5)
         @line_item = Creator.createLineItem(@watermelon,14)
-        @line_item.set_dividends
-        @line_item.caculate_selection
       end
       it "should result_list be an array and not empty after caculate" do
         expect(@line_item.result_list).to be_an_instance_of(Array)
@@ -65,8 +62,6 @@ RSpec.describe LineItem do
         @watermelon.add_pack(5, 9.95)
         @watermelon.add_pack(9, 16.99)
         @line_item = Creator.createLineItem(@watermelon,14)
-        @line_item.set_dividends
-        @line_item.caculate_selection
       end
       it "should result_list be an array and not empty after caculate" do
         expect(@line_item.result_list).to be_an_instance_of(Array)
@@ -99,7 +94,6 @@ RSpec.describe LineItem do
       @watermelon.add_pack(5, 3)
       @watermelon.add_pack(9, 4)
       @line_item = Creator.createLineItem(@watermelon,14)
-      @line_item.set_dividends
     end
     it "should take one argument" do
       expect(@line_item).to respond_to(:find_next).with(1).argument
@@ -127,6 +121,82 @@ RSpec.describe LineItem do
         expect(result).to eq([2,1,3,4])
         expect(result[1]).to eq(1)
         expect(result[2]).to eq(3)
+      end
+    end
+  end
+
+  describe "#find_best_solution" do
+    context "use given first example pack and price" do
+      before do
+        @watermelon = Creator.createProduct(:watermelon, "watermelon")
+        @watermelon.add_pack(3, 5.95)
+        @watermelon.add_pack(5, 9.95)
+        @watermelon.add_pack(9, 16.99)
+        @line_item = Creator.createLineItem(@watermelon,13)
+      end
+      it "should have 2 kind of packs" do
+        expect(@line_item.selections.length).to eq(2)
+      end
+      it "should have 2 5pack" do
+        expect(@line_item.selections.first.quantity).to eq(2)
+      end
+      it "should have 1 3pack" do
+        expect(@line_item.selections.last.quantity).to eq(1)
+      end
+      it "should have total price 25.85" do
+        expect((@line_item.selections.first.total_price + @line_item.selections.last.total_price)
+                .to_f.round(2))
+                .to eq(25.85)
+      end
+    end
+    context "use given second example pack and price" do
+      before do
+        @watermelon = Creator.createProduct(:watermelon, "watermelon")
+        @watermelon.add_pack(3, 6.99)
+        @watermelon.add_pack(5, 8.99)
+        @line_item = Creator.createLineItem(@watermelon,10)
+      end
+      it "should have 1 kind of pack" do
+        expect(@line_item.selections.length).to eq(1)
+      end
+      it "should have 2 5pack" do
+        expect(@line_item.selections.first.quantity).to eq(2)
+      end
+      it "should have total price 17.98" do
+        expect(@line_item.selections.first.total_price.to_f.round(2)).to eq(17.98)
+      end
+    end
+    context "use given third example pack and price" do
+      before do
+        @watermelon = Creator.createProduct(:watermelon, "watermelon")
+        @watermelon.add_pack(2, 9.95)
+        @watermelon.add_pack(5, 16.95)
+        @watermelon.add_pack(8, 24.95)
+        @line_item = Creator.createLineItem(@watermelon,14)
+        # puts @line_item.selections.first.quantity
+        # puts @line_item.selections.first.total_price
+        # puts @line_item.selections.first.pack_quantity
+        # puts @line_item.selections.last.quantity
+        # puts @line_item.selections.last.total_price
+        # puts @line_item.selections.last.pack_quantity
+        @line_item.result_list.each do |re|
+          puts " // "
+          puts re
+        end
+      end
+      it "should have 2 kind of packs" do
+        expect(@line_item.selections.length).to eq(2)
+      end
+      it "should have 1 8pack" do
+        expect(@line_item.selections.first.quantity).to eq(1)
+      end
+      it "should have 3 2pack" do
+        expect(@line_item.selections.last.quantity).to eq(3)
+      end
+      it "should have total price 54.80" do
+        expect((@line_item.selections.first.total_price + @line_item.selections.last.total_price)
+                .to_f.round(2))
+                .to eq(54.80)
       end
     end
   end
