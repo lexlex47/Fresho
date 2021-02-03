@@ -12,12 +12,12 @@ class LineItem
 
   def set_dividends
     @product.packs.each{|pack| @dividends << pack.quantity}
-    # puts @product.packs.length
-    # # @product.packs.each{|pack| puts pack.quantity}
   end
 
   def caculator
-
+    @dividends.each do |dividend|
+      
+    end
   end
 
   def caculate_left_over

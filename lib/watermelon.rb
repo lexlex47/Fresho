@@ -7,6 +7,7 @@ class Watermelon < Product
   def initialize(name)
     super(name)
     @packs = []
+    @unit_price = 0
   end
 
 end
