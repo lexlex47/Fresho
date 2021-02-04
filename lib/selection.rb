@@ -1,3 +1,4 @@
+# Selection class
 require './lib/pack'
 
 class Selection

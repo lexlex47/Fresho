@@ -1,3 +1,4 @@
+# LineItem class
 require './lib/selection'
 
 class LineItem
@@ -19,11 +20,14 @@ class LineItem
     process_flow()
   end
 
+  # If there is a product instance already exist, only add quantity to this product's current_quantity.
+  # And need to re-initial the states
   def update_quantity(quantity)
     @quantity += quantity
     initialize(@product, @quantity)
   end
 
+  # process flow
   def process_flow
     set_dividends
     caculate_selection
@@ -31,6 +35,7 @@ class LineItem
     get_total_price
   end
 
+  # store available packs'quantity to dividends list
   def set_dividends
     @dividends = @product.packs.sort_by{|pack| pack.quantity}
   end
@@ -62,6 +67,7 @@ class LineItem
     end
   end
 
+  # process the remainder
   def find_next(num)
     tmp = []
     @dividends.each do |dividend|
@@ -78,6 +84,7 @@ class LineItem
     return tmp.empty? ? tmp : tmp.first
   end
 
+  # return the best solution
   def find_best_solution
     solution = nil
     divide = true
@@ -92,6 +99,7 @@ class LineItem
     return
   end
 
+  # to find best combination from solutions list 
   def find_selection(divide)
     tmp = []
     @result_list.select{|result| tmp << result if result.last[1] == 0} if divide
@@ -108,6 +116,7 @@ class LineItem
     tmp[vals.index(vals.min)]
   end
 
+  # store each selection to selection list
   def handle_selections(solution,divide)
     # [quantity, total_price, pack_quantity]
     solution.each do |s|
@@ -127,6 +136,7 @@ class LineItem
     end
   end
 
+  # caculate SubTotal
   def get_total_price
     @total_price = @selections
                     .inject(0){|result, elem| result + elem.total_price}

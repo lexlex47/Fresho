@@ -1,3 +1,4 @@
+# Shop class
 require 'singleton'
 require './lib/creator'
 require './lib/invoice'
@@ -24,6 +25,7 @@ class Shop
     @line_items = []
   end
 
+  # load default data, and create product instance with packs
   def load_products
     @products_type["watermelon"] = Creator.createProduct(:watermelon, "watermelon")
     @products_type["watermelon"].add_pack(3, 6.99)
@@ -40,6 +42,7 @@ class Shop
     @products_type["rockmelon"].add_pack(9, 16.99)
   end
 
+  # read input file, and create line_item instance
   def process_order(order)
     data = order.strip.split(' ')
     return unless (data.size == 2)
@@ -55,10 +58,12 @@ class Shop
     end
   end
 
+  # generate invoice instance
   def create_invoice
     @invoice = Invoice.new(@line_items)
   end
 
+  # print out invoice
   def print_invoice
     @invoice.output
   end

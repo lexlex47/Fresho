@@ -1,3 +1,4 @@
+# Invoice class
 class Invoice
   
   attr_accessor :line_items, :total_price

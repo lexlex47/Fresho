@@ -1,3 +1,4 @@
+# Pack class
 class Pack
 
   attr_accessor :quantity, :price
