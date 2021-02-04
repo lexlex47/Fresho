@@ -12,8 +12,7 @@ begin
 rescue Errno::ENOENT, Errno::EACCES
   puts "No valid input.txt file in /data folder. Please try again."
 ensure
+  shop.create_invoice()
+  shop.print_invoice()
   exit
 end
-
-shop.create_invoice()
-shop.print_invoice()

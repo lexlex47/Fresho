@@ -203,4 +203,19 @@ RSpec.describe LineItem do
     end
   end
 
+  describe "#get_total_price" do
+    before do
+      @watermelon = Creator.createProduct(:watermelon, "watermelon")
+      @watermelon.add_pack(2, 9.95)
+      @watermelon.add_pack(5, 16.95)
+      @watermelon.add_pack(8, 24.95)
+      @line_item = Creator.createLineItem(@watermelon,14)
+    end
+    it "should set total_price the value same as sum of all selection total_price" do
+      expect(@line_item.total_price)
+      .to eq(@line_item.selections.first.total_price + @line_item.selections.last.total_price)
+      expect(@line_item.total_price).to eq(54.80)
+    end
+  end
+
 end

@@ -1,3 +1,5 @@
+require './lib/selection'
+
 class LineItem
 
   attr_accessor :product, 
@@ -21,6 +23,7 @@ class LineItem
     set_dividends
     caculate_selection
     find_best_solution
+    get_total_price
   end
 
   def set_dividends
@@ -101,10 +104,12 @@ class LineItem
   end
 
   def handle_selections(solution,divide)
-    # [quotient, remainder, current_pack_quantity, pack_total_price]
+    # [quantity, total_price, pack_quantity]
     solution.each do |s|
       if s.first == 0
         selection = Selection.new(s[1],s[1] * @product.unit_price,1)
+        @selections << selection
+        return
       end
       selection = Selection.new(s[0],s[3],s[2])
       @selections << selection
@@ -115,6 +120,13 @@ class LineItem
                                 1)
       @selections << selection
     end
+  end
+
+  def get_total_price
+    @total_price = @selections
+                    .inject(0){|result, elem| result + elem.total_price}
+                    .to_f
+                    .round(2)
   end
 
 end

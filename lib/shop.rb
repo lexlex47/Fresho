@@ -1,5 +1,6 @@
 require 'singleton'
 require './lib/creator'
+require './lib/invoice'
 
 class Shop
 
@@ -28,7 +29,7 @@ class Shop
 
     case name
     when "watermelon"
-      if @watermelonitem == nil
+      if @watermelonitem.nil?
         @watermelonitem = Creator.createLineItem(@watermelon,quantity)
       else 
         @watermelonitem.quantity += quantity
