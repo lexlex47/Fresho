@@ -19,6 +19,11 @@ class LineItem
     process_flow()
   end
 
+  def update_quantity(quantity)
+    @quantity += quantity
+    initialize(@product, @quantity)
+  end
+
   def process_flow
     set_dividends
     caculate_selection

@@ -18,6 +18,16 @@ class Shop
     @watermelon = Creator.createProduct(:watermelon, "watermelon")
     @watermelon.add_pack(3, 6.99)
     @watermelon.add_pack(5, 8.99)
+
+    @pineapple = Creator.createProduct(:pineapple, "pineapple")
+    @pineapple.add_pack(2, 9.95)
+    @pineapple.add_pack(5, 16.95)
+    @pineapple.add_pack(8, 24.95)
+
+    @rockmelon = Creator.createProduct(:rockmelon, "rockmelon")
+    @rockmelon.add_pack(3, 5.95)
+    @rockmelon.add_pack(5, 9.95)
+    @rockmelon.add_pack(9, 16.99)
   end
 
   def process_order(order)
@@ -25,20 +35,32 @@ class Shop
     return unless (data.size == 2)
     name = data.first.downcase
     quantity = is_numerical(data.last)
-    return unless quantity
+    return unless quantity && quantity > 0
 
     case name
-    when "watermelon"
+    when "watermelons"
       if @watermelonitem.nil?
         @watermelonitem = Creator.createLineItem(@watermelon,quantity)
+      else
+        @watermelonitem.update_quantity(quantity)
+      end
+    when "pineapples"
+      if @pineappleitem.nil?
+        @pineappleitem = Creator.createLineItem(@pineapple,quantity)
       else 
-        @watermelonitem.quantity += quantity
+        @pineappleitem.update_quantity(quantity)
+      end
+    when "rockmelons"
+      if @rockmelonitem.nil?
+        @rockmelonitem = Creator.createLineItem(@rockmelon,quantity)
+      else 
+        @rockmelonitem.update_quantity(quantity)
       end
     end
   end
 
   def create_invoice
-    @invoice = Invoice.new([@watermelonitem])
+    @invoice = Invoice.new([@watermelonitem,@pineappleitem,@rockmelonitem])
   end
 
   def print_invoice
