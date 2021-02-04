@@ -1,14 +1,22 @@
 require './lib/watermelon'
 require './lib/watermelon_item'
+require './lib/pineapple'
+require './lib/pineapple_item'
+require './lib/rockmelon'
+require './lib/rockmelon_item'
 
 class Creator
 
   PRODUCT_TYPES = {
-    watermelon: Watermelon
+    watermelon: Watermelon,
+    pineapple: Pineapple,
+    rockmelon: Rockmelon
   }
 
   LINE_ITEM_TYPES = {
-    watermelon: WatermelonItem
+    watermelon: WatermelonItem,
+    pineapple: PineappleItem,
+    rockmelon: RockmelonItem
   }
 
   def self.createProduct(type, name)

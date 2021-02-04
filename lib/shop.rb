@@ -6,8 +6,8 @@ class Shop
 
   include Singleton
 
-  attr_accessor :watermelon
-  attr_accessor :watermelonitem
+  attr_accessor :watermelon, :pineapple, :rockmelon
+  attr_accessor :watermelonitem, :pineappleitem, :rockmelonitem
   attr_accessor :invoice
 
   def initialize

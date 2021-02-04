@@ -9,10 +9,10 @@ begin
   File.readlines('data/input.txt').each do |line|
     shop.process_order(line)
   end
+  shop.create_invoice()
+  shop.print_invoice()
 rescue Errno::ENOENT, Errno::EACCES
   puts "No valid input.txt file in /data folder. Please try again."
 ensure
-  shop.create_invoice()
-  shop.print_invoice()
   exit
 end
