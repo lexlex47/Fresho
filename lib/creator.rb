@@ -1,9 +1,10 @@
-require './lib/watermelon'
-require './lib/watermelon_item'
-require './lib/pineapple'
-require './lib/pineapple_item'
-require './lib/rockmelon'
-require './lib/rockmelon_item'
+require './lib/products/watermelon'
+require './lib/products/pineapple'
+require './lib/products/rockmelon'
+
+require './lib/line_items/watermelon_item'
+require './lib/line_items/pineapple_item'
+require './lib/line_items/rockmelon_item'
 
 class Creator
 

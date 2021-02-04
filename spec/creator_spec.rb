@@ -1,7 +1,7 @@
 require 'rspec'
 require 'spec_helper'
 require './lib/creator'
-require './lib/watermelon'
+require './lib/products/watermelon'
 
 RSpec.describe Creator do
 

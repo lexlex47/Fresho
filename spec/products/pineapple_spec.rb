@@ -1,7 +1,7 @@
 require 'rspec'
 require 'spec_helper'
 require './lib/product'
-require './lib/pineapple'
+require './lib/products/pineapple'
 require './lib/pack'
 
 RSpec.describe Pineapple do

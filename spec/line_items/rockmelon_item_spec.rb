@@ -1,7 +1,7 @@
 require 'rspec'
 require 'spec_helper'
 require './lib/line_item'
-require './lib/rockmelon_item'
+require './lib/line_items/rockmelon_item'
 
 RSpec.describe RockmelonItem do
 

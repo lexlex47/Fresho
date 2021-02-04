@@ -1,5 +1,5 @@
 require './lib/line_item'
-require './lib/pineapple'
+require './lib/products/pineapple'
 
 class PineappleItem < LineItem
   
