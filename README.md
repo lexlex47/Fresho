@@ -1,45 +1,81 @@
 # Fresho
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/fresho`. To experiment with that code, run `bin/console` for an interactive prompt.
+It is a code test for Fresho.
 
-TODO: Delete this and the text above, and describe your gem
+## Task
 
-## Installation
+A fresh food supplier sells product items to customers in packs. The bigger the pack, the cheaper the cost per item. Note that the system has determined the optimal packs to fill the order.
 
-Add this line to your application's Gemfile:
+### TODO
 
-```ruby
-gem 'fresho'
-```
+1.  Generate an invoice for the order
+2.  The exact method & format of input/output is not important
+3.  Write code you will be happy to put into production
+4.  TDD
+5.  Make sure your code handles the given example
 
-And then execute:
+### Dependencies
+
+    Ruby => 2.7.2p137 (2020-10-01 revision 5445e04352) [x64-mingw32]
+    Rspec
+
+### Installation
+
+Clone the repo and then execute:
 
     $ bundle install
 
-Or install it yourself as:
+### Run
 
-    $ gem install fresho
+Before running, make sure you have input.txt file locate in /data folder.
 
-## Usage
+To run execute:
 
-TODO: Write usage instructions here
+    $ ruby app.rb
 
-## Development
+The system will output result on console directly.
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+### Test
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To run rspec test execute:
 
-## Contributing
+    $ rspec
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/fresho. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/fresho/blob/master/CODE_OF_CONDUCT.md).
+***
 
+## Design
 
-## License
+### First thought
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the Fresho project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/fresho/blob/master/CODE_OF_CONDUCT.md).
-"# Fresho" 
+_Language_
+Ruby
+_Store packs details_
+The packs data are load from a txt/xml file.
+_Load Customer Order_
+Use file reader to load customer order data, from a txt/xml file.
+_Print Invoice_
+Use the console to print invoice, because want to keep thing simple.
+_System workflow_
+1.  start system from an entry point, like a Main class
+2.  load the default packs details directly after create a main instance
+3.  load customer order txt file line by line, and create relate instances
+4.  pass all instances to a handler class to caculate best practice
+5.  pass the solution to invoice instance
+6.  print out the invoice to console
+_Instance and Classes_
+1.  the app class, which is this system entry point
+2.  shop class
+3.  product class       [1 name, multiple packs]
+4.  pack class          [1 pack quantity, 1 pack price]
+5.  line-product class  [1 product, 1 total purchase quantity, 1 sub total]
+6.  invoice class       [multiple line-products]
+_Methods_
+1.  shop class          load_default_packs_details()
+                        initial_product_instances()
+                        read_customer_order()
+                        create_line-products(products)
+2.  product class       add_packs_to_product()
+3.  pack class
+4.  line-product class  find_best_practice()
+                        get_sub_total()
+5.  invoice class       print()
