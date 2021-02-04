@@ -1,5 +1,8 @@
 # Fresho
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/3c0ad7ecc1d811d8baf6/maintainability)](https://codeclimate.com/github/lexlex47/Fresho/maintainability)
+[![Build Status](https://travis-ci.org/lexlex47/Fresho.svg?branch=main)](https://travis-ci.org/lexlex47/Fresho)
+
 It is a code test for Fresho.
 
 ## Task
