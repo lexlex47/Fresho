@@ -6,61 +6,57 @@ class Shop
 
   include Singleton
 
-  attr_accessor :watermelon, :pineapple, :rockmelon
-  attr_accessor :watermelonitem, :pineappleitem, :rockmelonitem
+  attr_accessor :line_items, :products_type, :items_type
   attr_accessor :invoice
 
   def initialize
     "is a Singleton"
+    @products_type = {
+      "watermelon" => @watermelon,
+      "pineapple" => @pineapple,
+      "rockmelon" => @rockmelon
+    }
+    @items_type = {
+      "watermelon" => @watermelonitem,
+      "pineapple" => @pineappleitem,
+      "rockmelon" => @rockmelonitem
+    }
+    @line_items = []
   end
 
   def load_products
-    @watermelon = Creator.createProduct(:watermelon, "watermelon")
-    @watermelon.add_pack(3, 6.99)
-    @watermelon.add_pack(5, 8.99)
+    @products_type["watermelon"] = Creator.createProduct(:watermelon, "watermelon")
+    @products_type["watermelon"].add_pack(3, 6.99)
+    @products_type["watermelon"].add_pack(5, 8.99)
 
-    @pineapple = Creator.createProduct(:pineapple, "pineapple")
-    @pineapple.add_pack(2, 9.95)
-    @pineapple.add_pack(5, 16.95)
-    @pineapple.add_pack(8, 24.95)
+    @products_type["pineapple"] = Creator.createProduct(:pineapple, "pineapple")
+    @products_type["pineapple"].add_pack(2, 9.95)
+    @products_type["pineapple"].add_pack(5, 16.95)
+    @products_type["pineapple"].add_pack(8, 24.95)
 
-    @rockmelon = Creator.createProduct(:rockmelon, "rockmelon")
-    @rockmelon.add_pack(3, 5.95)
-    @rockmelon.add_pack(5, 9.95)
-    @rockmelon.add_pack(9, 16.99)
+    @products_type["rockmelon"] = Creator.createProduct(:rockmelon, "rockmelon")
+    @products_type["rockmelon"].add_pack(3, 5.95)
+    @products_type["rockmelon"].add_pack(5, 9.95)
+    @products_type["rockmelon"].add_pack(9, 16.99)
   end
 
   def process_order(order)
     data = order.strip.split(' ')
     return unless (data.size == 2)
     name = data.first.downcase
+    return if @products_type[name].nil?
     quantity = is_numerical(data.last)
     return unless quantity && quantity > 0
-
-    case name
-    when "watermelons"
-      if @watermelonitem.nil?
-        @watermelonitem = Creator.createLineItem(@watermelon,quantity)
-      else
-        @watermelonitem.update_quantity(quantity)
-      end
-    when "pineapples"
-      if @pineappleitem.nil?
-        @pineappleitem = Creator.createLineItem(@pineapple,quantity)
-      else 
-        @pineappleitem.update_quantity(quantity)
-      end
-    when "rockmelons"
-      if @rockmelonitem.nil?
-        @rockmelonitem = Creator.createLineItem(@rockmelon,quantity)
-      else 
-        @rockmelonitem.update_quantity(quantity)
-      end
+    if @items_type[name].nil?
+      @items_type[name] = Creator.createLineItem(@products_type[name],quantity)
+      @line_items << @items_type[name]
+    else
+      @items_type[name].update_quantity(quantity)
     end
   end
 
   def create_invoice
-    @invoice = Invoice.new([@watermelonitem,@pineappleitem,@rockmelonitem])
+    @invoice = Invoice.new(@line_items)
   end
 
   def print_invoice
