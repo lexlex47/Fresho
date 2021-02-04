@@ -89,6 +89,7 @@ class LineItem
     @result_list.select{|result| tmp << result if result.last[1] == 0} if divide
     @result_list.select{|result| tmp << result if result.last[1] != 0} if !divide
     return tmp if tmp.empty?
+    return tmp.last if divide
     vals = []
     tmp.each do |el|
       val = 0

@@ -133,6 +133,10 @@ RSpec.describe LineItem do
         @watermelon.add_pack(5, 9.95)
         @watermelon.add_pack(9, 16.99)
         @line_item = Creator.createLineItem(@watermelon,13)
+        # @line_item.result_list.each do |re|
+        #   puts " // "
+        #   puts re
+        # end
       end
       it "should have 2 kind of packs" do
         expect(@line_item.selections.length).to eq(2)
@@ -155,6 +159,10 @@ RSpec.describe LineItem do
         @watermelon.add_pack(3, 6.99)
         @watermelon.add_pack(5, 8.99)
         @line_item = Creator.createLineItem(@watermelon,10)
+        # @line_item.result_list.each do |re|
+        #   puts " // "
+        #   puts re
+        # end
       end
       it "should have 1 kind of pack" do
         expect(@line_item.selections.length).to eq(1)
@@ -173,16 +181,10 @@ RSpec.describe LineItem do
         @watermelon.add_pack(5, 16.95)
         @watermelon.add_pack(8, 24.95)
         @line_item = Creator.createLineItem(@watermelon,14)
-        # puts @line_item.selections.first.quantity
-        # puts @line_item.selections.first.total_price
-        # puts @line_item.selections.first.pack_quantity
-        # puts @line_item.selections.last.quantity
-        # puts @line_item.selections.last.total_price
-        # puts @line_item.selections.last.pack_quantity
-        @line_item.result_list.each do |re|
-          puts " // "
-          puts re
-        end
+        # @line_item.result_list.each do |re|
+        #   puts " // "
+        #   puts re
+        # end
       end
       it "should have 2 kind of packs" do
         expect(@line_item.selections.length).to eq(2)
