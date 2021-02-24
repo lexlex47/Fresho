@@ -4,3 +4,7 @@ cache: bundler
 rvm:
   - 2.7.2
 before_install: gem install bundler -v 2.1.4
+env:
+  - CODECOV_TOKEN="eac83efd-1c35-4c99-9416-831d177e4d88"
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
