@@ -2,6 +2,7 @@
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/8535a674f84142cb9ed46856feec0990)](https://www.codacy.com/gh/lexlex47/Fresho/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=lexlex47/Fresho&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/lexlex47/Fresho.svg?branch=main)](https://travis-ci.org/lexlex47/Fresho)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/3c0ad7ecc1d811d8baf6/test_coverage)](https://codeclimate.com/github/lexlex47/Fresho/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/3c0ad7ecc1d811d8baf6/maintainability)](https://codeclimate.com/github/lexlex47/Fresho/maintainability)
 [![codecov](https://codecov.io/gh/lexlex47/Fresho/branch/main/graph/badge.svg?token=DYMT55KF51)](https://codecov.io/gh/lexlex47/Fresho)
 
