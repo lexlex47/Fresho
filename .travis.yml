@@ -1,7 +1,7 @@
 ---
 env:
   global:
-    - CC_TEST_REPORTER_ID=0bcb4ff8ab69e0f75dedc78db9db09795b167d3a0a97a99a76d7102be63ade90
+    - CC_TEST_REPORTER_ID = 0bcb4ff8ab69e0f75dedc78db9db09795b167d3a0a97a99a76d7102be63ade90
     - CODECOV_TOKEN = eac83efd-1c35-4c99-9416-831d177e4d88
 language: ruby
 cache: bundler
